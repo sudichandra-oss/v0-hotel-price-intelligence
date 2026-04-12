@@ -1,11 +1,21 @@
 import { supabase, type Hotel } from '@/lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
+import { getMockDb } from '@/lib/mock-db';
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const city = searchParams.get('city');
     const bounds = searchParams.get('bounds'); // minLat,maxLat,minLng,maxLng
+
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      const db = getMockDb();
+      let results = db.hotels;
+      if (city) {
+        results = results.filter(h => h.city.toLowerCase().includes(city.toLowerCase()));
+      }
+      return NextResponse.json(results);
+    }
 
     let query = supabase.from('hotels').select('*');
 
@@ -41,9 +51,13 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return NextResponse.json({ ...body, id: 'mock-' + Date.now() }, { status: 201 });
+    }
+
     const { data, error } = await supabase
       .from('hotels')
-      .insert([body])
+      .insert([body as any])
       .select();
 
     if (error) {
