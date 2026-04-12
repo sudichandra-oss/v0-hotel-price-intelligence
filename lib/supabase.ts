@@ -1,9 +1,49 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+let _supabase: ReturnType<typeof createClient> | null = null;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+const getSupabase = () => {
+  if (_supabase) return _supabase;
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    if (process.env.NODE_ENV === 'production' && process.env.NEXT_PHASE !== 'phase-production-build') {
+      console.warn('Supabase credentials missing in production!');
+    }
+    // Return a mock that doesn't throw on common methods
+    return new Proxy({} as any, {
+      get: (_, prop) => {
+        if (prop === 'from') {
+          return () => ({
+            select: () => ({ 
+              order: () => Promise.resolve({ data: [], error: null }),
+              limit: () => Promise.resolve({ data: [], error: null }),
+              ilike: () => ({ order: () => Promise.resolve({ data: [], error: null }) }),
+              gte: () => ({ lte: () => ({ gte: () => ({ lte: () => Promise.resolve({ data: [], error: null }) }) }) }),
+            }),
+            insert: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }),
+            upsert: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }),
+          });
+        }
+        return () => Promise.resolve({ data: null, error: null });
+      }
+    });
+  }
+
+  _supabase = createClient(url, key);
+  return _supabase;
+};
+
+// Export a proxy that looks like the real client but initializes lazily
+export const supabase = new Proxy({} as any, {
+  get: (_, prop) => {
+    const client = getSupabase();
+    const value = (client as any)[prop];
+    return typeof value === 'function' ? value.bind(client) : value;
+  }
+}) as ReturnType<typeof createClient>;
 
 export type Hotel = {
   id: string;

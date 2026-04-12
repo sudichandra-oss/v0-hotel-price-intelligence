@@ -6,6 +6,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  serverExternalPackages: [
+    'puppeteer-extra',
+    'puppeteer-extra-plugin-stealth',
+    'user-agents'
+  ],
 }
 
 export default nextConfig
