@@ -7,8 +7,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'Hotel Price Intelligence - Real-time Pricing Analytics',
+  description: 'Monitor hotel prices, track trends, and analyze competitor pricing with real-time intelligence. Make data-driven decisions for your hospitality business.',
   generator: 'v0.app',
   icons: {
     icon: [
