@@ -1,9 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Function to convert rating to star category
 function ratingToStarCategory(rating) {
@@ -14,7 +10,7 @@ function ratingToStarCategory(rating) {
 }
 
 // Read the mock database file
-const dbPath = path.join(__dirname, '../data/mock_db.json');
+const dbPath = '/vercel/share/v0-project/data/mock_db.json';
 const dbContent = fs.readFileSync(dbPath, 'utf-8');
 const db = JSON.parse(dbContent);
 
