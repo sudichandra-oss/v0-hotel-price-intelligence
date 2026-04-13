@@ -47,7 +47,16 @@ export async function upsertHotel(hotelData: any) {
     saveMockDb(db);
     return db.hotels.find((h: any) => h.hotel_id === hotelData.hotel_id);
   }
-  // ... rest of the file
+
+  const { data, error } = await supabase
+    .from('hotels')
+    .upsert(hotelData, { onConflict: 'hotel_id' })
+    .select();
+
+  if (error) {
+    console.error('Error upserting hotel:', error.message);
+  }
+  return data?.[0] || null;
 }
 
 export async function upsertRoomType(roomData: any) {
@@ -62,7 +71,16 @@ export async function upsertRoomType(roomData: any) {
     saveMockDb(db);
     return db.room_types.find((r: any) => r.hotel_id === roomData.hotel_id && r.room_name === roomData.room_name);
   }
-  // ... rest of the file
+
+  const { data, error } = await supabase
+    .from('room_types')
+    .insert(roomData)
+    .select();
+
+  if (error) {
+    console.error('Error inserting room type:', error.message);
+  }
+  return data?.[0] || null;
 }
 
 export async function insertPriceHistory(priceData: any) {
@@ -73,7 +91,16 @@ export async function insertPriceHistory(priceData: any) {
     saveMockDb(db);
     return [record];
   }
-  // ... rest of the file
+
+  const { data, error } = await supabase
+    .from('price_history')
+    .insert(priceData)
+    .select();
+
+  if (error) {
+    console.error('Error inserting price history:', error.message);
+  }
+  return data || [];
 }
 
 export async function logScrape(logData: any) {
@@ -84,7 +111,16 @@ export async function logScrape(logData: any) {
     saveMockDb(db);
     return log;
   }
-  // ... rest of the file
+
+  const { data, error } = await supabase
+    .from('scrape_logs')
+    .insert(logData)
+    .select();
+
+  if (error) {
+    console.error('Error logging scrape:', error.message);
+  }
+  return data?.[0] || null;
 }
 
 export async function updateScrapeLog(id: string, updateData: any) {
@@ -98,15 +134,17 @@ export async function updateScrapeLog(id: string, updateData: any) {
     }
     return null;
   }
+
   const { data, error } = await supabase
     .from('scrape_logs')
     .update(updateData)
-    .eq('id', id);
+    .eq('id', id)
+    .select();
 
   if (error) {
     console.error('Error updating scrape log:', error.message);
   }
-  return data;
+  return data?.[0] || null;
 }
 
 export async function upsertHotels(hotels: any[]) {

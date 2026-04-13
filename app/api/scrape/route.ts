@@ -56,12 +56,14 @@ export async function POST(request: NextRequest) {
 
           if (log) {
             await updateScrapeLog(log.id, {
-              status: 'success',
+              status: result?.error ? 'failure' : 'success',
               hotels_count: result?.hotels?.length || 15 + Math.floor(Math.random() * 20), // mock count if 0
+              error_message: result?.error || null,
               finished_at: new Date().toISOString(),
             });
           }
         } catch (err: any) {
+          console.error(`[v0] Scrape error for ${website}:`, err);
           if (log) {
             await updateScrapeLog(log.id, {
               status: 'failure',
@@ -73,10 +75,14 @@ export async function POST(request: NextRequest) {
       }
     };
 
-    startScrape();
+    // Fire off the scraping job in the background without waiting
+    startScrape().catch((err) => {
+      console.error('[v0] Background scrape job failed:', err);
+    });
 
     return NextResponse.json({ message: 'Scrape job initialized', city });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to start scrape' }, { status: 500 });
+  } catch (error: any) {
+    console.error('[v0] Failed to initialize scrape:', error);
+    return NextResponse.json({ error: error.message || 'Failed to start scrape' }, { status: 500 });
   }
 }

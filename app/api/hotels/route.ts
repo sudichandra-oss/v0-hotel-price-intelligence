@@ -10,6 +10,10 @@ export async function GET(request: NextRequest) {
 
     const db = getMockDb();
     let hotels = db.hotels || [];
+    
+    console.log('[v0] Hotels API - Total hotels in DB:', hotels.length);
+    console.log('[v0] Hotels API - Total prices in DB:', (db.price_history || []).length);
+    console.log('[v0] Hotels API - Available sources:', [...new Set((db.price_history || []).map((p: any) => p.source))]);
 
     if (city) {
       hotels = hotels.filter((h: any) => h.city?.toLowerCase() === city.toLowerCase());
@@ -44,6 +48,10 @@ export async function GET(request: NextRequest) {
         source: p.source,
         price: p.price
       }));
+      
+      if (sourceBreakdown.length > 0) {
+        console.log(`[v0] Hotel ${h.name}: found ${sourceBreakdown.length} sources:`, sourceBreakdown.map((s: any) => `${s.source}:₹${s.price}`).join(', '));
+      }
 
       // Find the absolute lowest price across all sources
       const competitivePrices = sourceBreakdown.map(s => s.price);
