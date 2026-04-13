@@ -1,6 +1,6 @@
 import './utils/polyfill';
 import { BaseScraper, ScrapeResult } from './base-scraper';
-import { formatPrice, formatRating, formatReviewCount, generateHotelId } from './utils/formatter';
+import { formatPrice, formatRating, formatReviewCount, generateHotelId, ratingToStarCategory } from './utils/formatter';
 import { upsertHotel, upsertRoomType, insertPriceHistory } from './utils/db-client';
 
 export class BookingScraper extends BaseScraper {
@@ -59,6 +59,7 @@ export class BookingScraper extends BaseScraper {
             country,
             rating,
             review_count: reviewCount,
+            star_category: ratingToStarCategory(rating),
             latitude: lat,
             longitude: lng,
             source: 'booking',
@@ -85,6 +86,7 @@ export class BookingScraper extends BaseScraper {
             country: hotel.country,
             rating: hotel.rating,
             review_count: hotel.review_count,
+            star_category: hotel.star_category,
             latitude: hotel.latitude,
             longitude: hotel.longitude,
             source: hotel.source,

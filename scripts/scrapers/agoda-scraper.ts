@@ -1,6 +1,6 @@
 import { BaseScraper, ScrapeParams, ScrapeResult } from './base-scraper';
-import { upsertHotels, upsertPrices, logScrape, updateScrapeLog } from './utils/db-client';
-import { generateHotelId } from './utils/formatter';
+import { upsertHotel, insertPriceHistory } from './utils/db-client';
+import { generateHotelId, ratingToStarCategory } from './utils/formatter';
 
 export class AgodaScraper extends BaseScraper {
   constructor() {
@@ -29,48 +29,43 @@ export class AgodaScraper extends BaseScraper {
       ];
 
       const hotelsOutput = [];
-      const pricesOutput = [];
 
       for (const h of mockHotels) {
         const hotelId = generateHotelId(h.name, city);
         
-        hotelsOutput.push({
-          hotel_id: hotelId,
-          name: h.name,
-          city,
-          country,
-          rating: h.rating,
-          review_count: h.review_count,
-          star_category: h.star_category,
-          latitude: h.latitude,
-          longitude: h.longitude,
-          source: 'agoda'
-        });
+        try {
+          const savedHotel = await upsertHotel({
+            hotel_id: hotelId,
+            name: h.name,
+            city,
+            country,
+            rating: h.rating,
+            review_count: h.review_count,
+            star_category: h.star_category,
+            latitude: h.latitude,
+            longitude: h.longitude,
+            source: 'agoda'
+          });
 
-        // Agoda often has competitive mobile-only style pricing
-        pricesOutput.push({
-          hotel_id: hotelId,
-          price: h.price, 
-          currency: 'INR',
-          source: 'agoda',
-          check_in: checkIn.toISOString(),
-          check_out: checkOut.toISOString(),
-          scraped_at: new Date().toISOString()
-        });
+          hotelsOutput.push(savedHotel);
+
+          // Insert price history
+          await insertPriceHistory({
+            hotel_id: savedHotel.id,
+            price: h.price,
+            currency: 'INR',
+            source: 'agoda',
+            checkin_date: checkIn.toISOString(),
+            checkout_date: checkOut.toISOString(),
+            scraped_at: new Date().toISOString()
+          });
+        } catch (dbError: any) {
+          this.log(`Error saving hotel ${h.name}: ${dbError.message}`, 'error');
+        }
       }
 
-      const savedHotels = await upsertHotels(hotelsOutput);
-      
-      // Update prices to use the internal database IDs
-      const finalPrices = pricesOutput.map(p => {
-        const matchingHotel = savedHotels.find(sh => sh.hotel_id === p.hotel_id);
-        return { ...p, hotel_id: matchingHotel?.id || p.hotel_id };
-      });
-
-      await upsertPrices(finalPrices);
-
       return {
-        hotels: savedHotels,
+        hotels: hotelsOutput,
         source: 'agoda'
       };
 

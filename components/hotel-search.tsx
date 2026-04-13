@@ -81,6 +81,11 @@ export function HotelSearch({
     );
   };
 
+  const getStarCategory = (hotel: Hotel): string => {
+    const category = hotel.star_category || 3;
+    return `${category}-Star`;
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col gap-6">
@@ -100,8 +105,8 @@ export function HotelSearch({
         {/* Filters Row */}
         <div className="flex flex-wrap items-center gap-4 px-4">
           <div className="flex items-center gap-2">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-2">Category</p>
-            {[3, 4, 5].map(star => (
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-2">Hotel Category</p>
+            {[2, 3, 4, 5].map(star => (
               <button
                 key={star}
                 onClick={() => toggleStar(star)}
@@ -112,7 +117,7 @@ export function HotelSearch({
                     : "bg-white text-slate-400 border-slate-100 hover:border-slate-300"
                 )}
               >
-                {star} STAR
+                {star} ★
               </button>
             ))}
           </div>
@@ -162,10 +167,13 @@ export function HotelSearch({
                         <span className="text-[10px] font-black uppercase tracking-widest">{hotel.city}, {hotel.country}</span>
                       </div>
                     </div>
-                    <div className="flex flex-col items-end gap-1">
+                    <div className="flex flex-col items-end gap-2">
                       <div className="flex items-center gap-1.5 px-3 py-1 bg-slate-50 rounded-full border border-slate-100">
                         <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
                         <span className="text-[10px] font-black text-slate-900">{hotel.rating || 'N/A'}</span>
+                      </div>
+                      <div className="px-2.5 py-1 bg-blue-50 rounded-full border border-blue-100">
+                        <span className="text-[8px] font-black text-blue-700 uppercase">{getStarCategory(hotel)}</span>
                       </div>
                     </div>
                   </div>
