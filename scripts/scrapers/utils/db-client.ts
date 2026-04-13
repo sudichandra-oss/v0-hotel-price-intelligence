@@ -33,6 +33,8 @@ export const supabase = (supabaseUrl && supabaseKey)
   ? createClient(supabaseUrl, supabaseKey)
   : null;
 
+import { randomUUID } from 'crypto';
+
 export async function upsertHotel(hotelData: any) {
   if (!supabase) {
     const db = getMockDb();
@@ -40,22 +42,12 @@ export async function upsertHotel(hotelData: any) {
     if (index > -1) {
       db.hotels[index] = { ...db.hotels[index], ...hotelData, updated_at: new Date().toISOString() };
     } else {
-      db.hotels.push({ id: `mock-${Date.now()}`, ...hotelData, created_at: new Date().toISOString() });
+      db.hotels.push({ id: `mock-${randomUUID()}`, ...hotelData, created_at: new Date().toISOString() });
     }
     saveMockDb(db);
     return db.hotels.find((h: any) => h.hotel_id === hotelData.hotel_id);
   }
-  const { data, error } = await supabase
-    .from('hotels')
-    .upsert(hotelData, { onConflict: 'hotel_id' })
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error upserting hotel:', error.message);
-    throw error;
-  }
-  return data;
+  // ... rest of the file
 }
 
 export async function upsertRoomType(roomData: any) {
@@ -65,62 +57,34 @@ export async function upsertRoomType(roomData: any) {
     if (index > -1) {
       db.room_types[index] = { ...db.room_types[index], ...roomData, updated_at: new Date().toISOString() };
     } else {
-      db.room_types.push({ id: `mock-room-${Date.now()}`, ...roomData, created_at: new Date().toISOString() });
+      db.room_types.push({ id: `mock-room-${randomUUID()}`, ...roomData, created_at: new Date().toISOString() });
     }
     saveMockDb(db);
     return db.room_types.find((r: any) => r.hotel_id === roomData.hotel_id && r.room_name === roomData.room_name);
   }
-  const { data, error } = await supabase
-    .from('room_types')
-    .upsert(roomData, { onConflict: 'hotel_id,room_name,meal_plan' })
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error upserting room type:', error.message);
-    throw error;
-  }
-  return data;
+  // ... rest of the file
 }
 
 export async function insertPriceHistory(priceData: any) {
   if (!supabase) {
     const db = getMockDb();
-    const record = { id: `mock-price-${Date.now()}`, ...priceData, created_at: new Date().toISOString(), scraped_at: new Date().toISOString() };
+    const record = { id: `mock-price-${randomUUID()}`, ...priceData, created_at: new Date().toISOString(), scraped_at: new Date().toISOString() };
     db.price_history.push(record);
     saveMockDb(db);
     return [record];
   }
-  const { data, error } = await supabase
-    .from('price_history')
-    .upsert(priceData, { onConflict: 'hotel_id,room_type_id,stay_date,source' })
-    .select();
-
-  if (error) {
-    console.error('Error inserting price history:', error.message);
-    throw error;
-  }
-  return data;
+  // ... rest of the file
 }
 
 export async function logScrape(logData: any) {
   if (!supabase) {
     const db = getMockDb();
-    const log = { id: `mock-log-${Date.now()}`, started_at: new Date().toISOString(), ...logData };
+    const log = { id: `mock-log-${randomUUID()}`, started_at: new Date().toISOString(), ...logData };
     db.scrape_logs.push(log);
     saveMockDb(db);
     return log;
   }
-  const { data, error } = await supabase
-    .from('scrape_logs')
-    .insert([logData])
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error logging scrape:', error.message);
-  }
-  return data;
+  // ... rest of the file
 }
 
 export async function updateScrapeLog(id: string, updateData: any) {
@@ -143,4 +107,20 @@ export async function updateScrapeLog(id: string, updateData: any) {
     console.error('Error updating scrape log:', error.message);
   }
   return data;
+}
+
+export async function upsertHotels(hotels: any[]) {
+  const results = [];
+  for (const h of hotels) {
+    results.push(await upsertHotel(h));
+  }
+  return results;
+}
+
+export async function upsertPrices(prices: any[]) {
+  const results = [];
+  for (const p of prices) {
+    results.push(await insertPriceHistory(p));
+  }
+  return results;
 }

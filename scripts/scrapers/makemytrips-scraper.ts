@@ -41,11 +41,30 @@ export class MMTScraper extends BaseScraper {
         const ratingText = $(el).find('#hlistpg_hotel_user_rating').text().trim();
         const priceText = $(el).find('#hlistpg_hotel_shown_price').text().trim();
         
+        // MMT meal plan extraction
+        const mealPlan = $(el).find('.pc__roomOption:contains("Breakfast")').text().trim() || 
+                        $(el).find('.pc__roomOption').first().text().trim() || 
+                        'No meal specified';
+
         const rating = formatRating(ratingText);
         const reviewCount = formatReviewCount(ratingText);
         const price = formatPrice(priceText);
 
         if (name && price) {
+          const cityCoords: Record<string, [number, number]> = {
+            'Mumbai': [19.0760, 72.8777],
+            'Delhi': [28.6139, 77.2090],
+            'London': [51.5074, -0.1278],
+            'Goa': [15.2993, 74.1240],
+            'Kochi': [9.9312, 76.2673],
+            'Varkala': [8.7374, 76.7063],
+          };
+
+          const base = cityCoords[city] || [20, 77];
+          // Add small jitter so hotels don't stack on map
+          const lat = base[0] + (Math.random() - 0.5) * 0.1;
+          const lng = base[1] + (Math.random() - 0.5) * 0.1;
+
           hotels.push({
             hotel_id: generateHotelId(name, city) + '-mmt',
             name,
@@ -54,8 +73,11 @@ export class MMTScraper extends BaseScraper {
             country,
             rating,
             review_count: reviewCount,
+            latitude: lat,
+            longitude: lng,
             source: 'makemytrip',
             price,
+            meal_plan: mealPlan,
             currency: 'INR',
             stay_date: isoCheckIn,
             check_in_date: isoCheckIn,
@@ -77,15 +99,15 @@ export class MMTScraper extends BaseScraper {
             country: hotel.country,
             rating: hotel.rating,
             review_count: hotel.review_count,
-            latitude: 0,
-            longitude: 0,
+            latitude: hotel.latitude,
+            longitude: hotel.longitude,
             source: hotel.source,
           });
 
           const roomType = await upsertRoomType({
             hotel_id: savedHotel.id,
             room_name: 'Standard Room',
-            meal_plan: 'Not Specified',
+            meal_plan: hotel.meal_plan,
             base_price: hotel.price,
             currency: hotel.currency,
           });
@@ -97,8 +119,8 @@ export class MMTScraper extends BaseScraper {
             price: hotel.price,
             currency: hotel.currency,
             source: hotel.source,
-            CHECK_IN_DATE: hotel.check_in_date,
-            CHECK_OUT_DATE: hotel.check_out_date,
+            check_in_date: hotel.check_in_date,
+            check_out_date: hotel.check_out_date,
           });
 
         } catch (dbError: any) {

@@ -6,8 +6,16 @@ import UserAgent from 'user-agents';
 
 puppeteer.use(StealthPlugin());
 
+export interface ScrapeParams {
+  city: string;
+  country: string;
+  checkIn: Date;
+  checkOut: Date;
+}
+
 export interface ScrapeResult {
   hotels: any[];
+  source?: string;
   error?: string;
 }
 

@@ -1,74 +1,70 @@
-import { supabase, type Hotel } from '@/lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
 import { getMockDb } from '@/lib/mock-db';
 
 export async function GET(request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams;
+    const { searchParams } = new URL(request.url);
     const city = searchParams.get('city');
-    const bounds = searchParams.get('bounds'); // minLat,maxLat,minLng,maxLng
+    const star = searchParams.get('star'); // e.g. "3,4,5"
+    const date = searchParams.get('date'); // e.g. "2026-04-13"
 
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      const db = getMockDb();
-      let results = db.hotels;
-      if (city) {
-        results = results.filter(h => h.city.toLowerCase().includes(city.toLowerCase()));
-      }
-      return NextResponse.json(results);
-    }
-
-    let query = supabase.from('hotels').select('*');
+    const db = getMockDb();
+    let hotels = db.hotels || [];
 
     if (city) {
-      query = query.ilike('city', `%${city}%`);
+      hotels = hotels.filter((h: any) => h.city?.toLowerCase() === city.toLowerCase());
     }
 
-    if (bounds) {
-      const [minLat, maxLat, minLng, maxLng] = bounds.split(',').map(Number);
-      query = query
-        .gte('latitude', minLat)
-        .lte('latitude', maxLat)
-        .gte('longitude', minLng)
-        .lte('longitude', maxLng);
+    if (star) {
+      const starArray = star.split(',').map(s => parseInt(s));
+      hotels = hotels.filter((h: any) => starArray.includes(h.star_category));
     }
 
-    const { data, error } = await query.order('name');
+    // Join with price history to find best rates across all sources
+    const priceHistory = db.price_history || [];
+    
+    const hotelsWithPricing = hotels.map((h: any) => {
+      // Get all prices for this hotel
+      let hotelPrices = priceHistory.filter((p: any) => p.hotel_id === h.id);
+      
+      // Filter by specific stay date if provided
+      if (date) {
+        hotelPrices = hotelPrices.filter((p: any) => p.stay_date === date);
+      }
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+      // Group by source and find the LATEST price for each source
+      const latestBySource: Record<string, any> = {};
+      hotelPrices.forEach((p: any) => {
+        if (!latestBySource[p.source] || new Date(p.scraped_at) > new Date(latestBySource[p.source].scraped_at)) {
+          latestBySource[p.source] = p;
+        }
+      });
 
-    return NextResponse.json(data as Hotel[]);
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
-}
+      const sourceBreakdown = Object.values(latestBySource).map((p: any) => ({
+        source: p.source,
+        price: p.price
+      }));
 
-export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
+      // Find the absolute lowest price across all sources
+      const competitivePrices = sourceBreakdown.map(s => s.price);
+      const lowestPrice = competitivePrices.length > 0 ? Math.min(...competitivePrices) : null;
+      const bestSource = sourceBreakdown.find(s => s.price === lowestPrice)?.source || null;
 
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      return NextResponse.json({ ...body, id: 'mock-' + Date.now() }, { status: 201 });
-    }
+      // Default price (for legacy UI compatibility)
+      const defaultPrice = latestBySource['booking']?.price || (sourceBreakdown.length > 0 ? sourceBreakdown[0].price : null);
 
-    const { data, error } = await supabase
-      .from('hotels')
-      .insert([body as any])
-      .select();
+      return {
+        ...h,
+        price: lowestPrice || defaultPrice,
+        source: bestSource || h.source || 'booking',
+        lowest_price: lowestPrice,
+        lowest_source: bestSource,
+        sourceBreakdown
+      };
+    });
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json(data[0], { status: 201 });
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json(hotelsWithPricing);
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

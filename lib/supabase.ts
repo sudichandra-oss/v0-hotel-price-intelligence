@@ -49,19 +49,23 @@ export type Hotel = {
   id: string;
   hotel_id: string;
   name: string;
-  rating: number;
-  review_count: number;
-  star_category: number;
+  rating?: number;
+  review_count?: number;
+  star_category?: number;
   latitude: number;
   longitude: number;
   city: string;
-  state: string;
+  state?: string;
   country: string;
-  address: string;
-  amenities: string[];
-  source: string;
-  created_at: string;
-  updated_at: string;
+  address?: string;
+  amenities?: string[];
+  source?: string;
+  created_at?: string;
+  updated_at?: string;
+  price?: number | null;
+  lowest_price?: number | null;
+  lowest_source?: string | null;
+  sourceBreakdown?: { source: string; price: number }[];
 };
 
 export type RoomType = {
