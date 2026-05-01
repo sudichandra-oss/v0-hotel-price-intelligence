@@ -5680,6 +5680,174 @@
       "longitude": 77.57,
       "source": "agoda",
       "created_at": "2026-04-13T10:39:53.206Z"
+    },
+    {
+      "id": "mock-2af6033f-131b-4fe5-b44d-d93af9882c49",
+      "hotel_id": "the-taj-hotel-mumbai",
+      "name": "The Taj Hotel",
+      "address": "1 Main Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 3.6,
+      "review_count": 1899,
+      "latitude": 19.042161138596423,
+      "longitude": 72.88980779495674,
+      "source": "booking",
+      "created_at": "2026-05-01T17:58:36.918Z"
+    },
+    {
+      "id": "mock-29759047-cb90-4095-8f16-f325437fa135",
+      "hotel_id": "oberoi-mumbai-mumbai",
+      "name": "Oberoi Mumbai",
+      "address": "2 Main Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 4.6,
+      "review_count": 1195,
+      "latitude": 19.035237218541642,
+      "longitude": 72.94422398921427,
+      "source": "booking",
+      "created_at": "2026-05-01T17:58:36.973Z"
+    },
+    {
+      "id": "mock-32b946c6-6627-4dd3-912f-f9eb34bd506a",
+      "hotel_id": "four-seasons-mumbai-mumbai",
+      "name": "Four Seasons Mumbai",
+      "address": "3 Main Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 4.7,
+      "review_count": 674,
+      "latitude": 19.012721038160024,
+      "longitude": 72.86605488715063,
+      "source": "booking",
+      "created_at": "2026-05-01T17:58:37.031Z"
+    },
+    {
+      "id": "mock-9b80145d-757a-4e1b-947f-57a95122a73d",
+      "hotel_id": "jw-marriott-mumbai-mumbai",
+      "name": "JW Marriott Mumbai",
+      "address": "4 Main Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 4.5,
+      "review_count": 1785,
+      "latitude": 19.115059860425827,
+      "longitude": 72.85464340318508,
+      "source": "booking",
+      "created_at": "2026-05-01T17:58:37.088Z"
+    },
+    {
+      "id": "mock-34700b55-0010-4d7f-aa94-08d225f8b148",
+      "hotel_id": "hyatt-centric-mumbai-mumbai",
+      "name": "Hyatt Centric Mumbai",
+      "address": "5 Main Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 4.8,
+      "review_count": 1280,
+      "latitude": 19.097269909772006,
+      "longitude": 72.82523286914945,
+      "source": "booking",
+      "created_at": "2026-05-01T17:58:37.145Z"
+    },
+    {
+      "id": "mock-9c21e097-2816-4035-8bc1-335bac92ac81",
+      "hotel_id": "itc-grand-central-mumbai",
+      "name": "ITC Grand Central",
+      "address": "6 Main Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 4.7,
+      "review_count": 2090,
+      "latitude": 19.13939195019376,
+      "longitude": 72.93743815465928,
+      "source": "booking",
+      "created_at": "2026-05-01T17:58:37.203Z"
+    },
+    {
+      "id": "mock-1e9f2a89-4904-4ddc-b4c8-2cbf09abe470",
+      "hotel_id": "renaissance-mumbai-mumbai",
+      "name": "Renaissance Mumbai",
+      "address": "7 Main Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 3.6,
+      "review_count": 2030,
+      "latitude": 19.02529437440609,
+      "longitude": 72.89420160261976,
+      "source": "booking",
+      "created_at": "2026-05-01T17:58:37.252Z"
+    },
+    {
+      "id": "mock-1d1652ed-1c46-4017-b3c6-97f9442b8f53",
+      "hotel_id": "oberoi-grand-mumbai-mumbai-mmt",
+      "name": "Oberoi Grand Mumbai",
+      "address": "1 MakeMyTrip Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 4.8,
+      "review_count": 1550,
+      "latitude": 19.08611552577457,
+      "longitude": 72.81996368836307,
+      "source": "makemytrip",
+      "created_at": "2026-05-01T17:58:37.336Z"
+    },
+    {
+      "id": "mock-442d3481-a065-45bb-98e3-d4e9bd94c22f",
+      "hotel_id": "hilton-mumbai-mumbai-mmt",
+      "name": "Hilton Mumbai",
+      "address": "2 MakeMyTrip Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 4.4,
+      "review_count": 1437,
+      "latitude": 19.04012344737889,
+      "longitude": 72.8531496054514,
+      "source": "makemytrip",
+      "created_at": "2026-05-01T17:58:37.390Z"
+    },
+    {
+      "id": "mock-ed72fab8-db88-419b-a931-d2ff051e136c",
+      "hotel_id": "novotel-mumbai-central-mumbai-mmt",
+      "name": "Novotel Mumbai Central",
+      "address": "3 MakeMyTrip Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 4.9,
+      "review_count": 1191,
+      "latitude": 19.009373248288345,
+      "longitude": 72.88520447331129,
+      "source": "makemytrip",
+      "created_at": "2026-05-01T17:58:37.452Z"
+    },
+    {
+      "id": "mock-a9673c27-c98d-49ec-af48-3c29d0738062",
+      "hotel_id": "crowne-plaza-mumbai-mumbai-mmt",
+      "name": "Crowne Plaza Mumbai",
+      "address": "4 MakeMyTrip Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 3.9,
+      "review_count": 1420,
+      "latitude": 19.02720657610712,
+      "longitude": 72.92823762110838,
+      "source": "makemytrip",
+      "created_at": "2026-05-01T17:58:37.500Z"
+    },
+    {
+      "id": "mock-76098efb-e974-4db8-b45e-3c6ea9a09cc2",
+      "hotel_id": "ibis-mumbai-mumbai-mmt",
+      "name": "Ibis Mumbai",
+      "address": "5 MakeMyTrip Street, Mumbai, India",
+      "city": "Mumbai",
+      "country": "India",
+      "rating": 3.9,
+      "review_count": 510,
+      "latitude": 19.12114795807621,
+      "longitude": 72.8551100320256,
+      "source": "makemytrip",
+      "created_at": "2026-05-01T17:58:37.549Z"
     }
   ],
   "room_types": [
@@ -9204,6 +9372,114 @@
       "base_price": 6629,
       "currency": "INR",
       "created_at": "2026-04-13T09:30:10.210Z"
+    },
+    {
+      "id": "mock-room-f2352164-aee7-4f99-94bd-b36fe9d87e6f",
+      "hotel_id": "mock-2af6033f-131b-4fe5-b44d-d93af9882c49",
+      "room_name": "Standard Room",
+      "meal_plan": "Breakfast included",
+      "base_price": 14792,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:36.937Z"
+    },
+    {
+      "id": "mock-room-49359925-a3a2-46f5-85fe-0197dc9cb642",
+      "hotel_id": "mock-29759047-cb90-4095-8f16-f325437fa135",
+      "room_name": "Standard Room",
+      "meal_plan": "No meal specified",
+      "base_price": 10410,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:36.993Z"
+    },
+    {
+      "id": "mock-room-c729873f-0ced-490f-a476-553357bf482f",
+      "hotel_id": "mock-32b946c6-6627-4dd3-912f-f9eb34bd506a",
+      "room_name": "Standard Room",
+      "meal_plan": "No meal specified",
+      "base_price": 9216,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.050Z"
+    },
+    {
+      "id": "mock-room-3c4b276d-808d-4e78-9ae3-bf8dd3ca488d",
+      "hotel_id": "mock-9b80145d-757a-4e1b-947f-57a95122a73d",
+      "room_name": "Standard Room",
+      "meal_plan": "Breakfast included",
+      "base_price": 8962,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.107Z"
+    },
+    {
+      "id": "mock-room-aa38158a-f1c5-4bc2-ab28-183b1799f8f9",
+      "hotel_id": "mock-34700b55-0010-4d7f-aa94-08d225f8b148",
+      "room_name": "Standard Room",
+      "meal_plan": "Breakfast included",
+      "base_price": 13748,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.163Z"
+    },
+    {
+      "id": "mock-room-a7a54fab-0f75-44f7-91e7-1acc30f32c7a",
+      "hotel_id": "mock-9c21e097-2816-4035-8bc1-335bac92ac81",
+      "room_name": "Standard Room",
+      "meal_plan": "No meal specified",
+      "base_price": 17434,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.219Z"
+    },
+    {
+      "id": "mock-room-dbf4a78e-b444-43dd-8ba7-72c7db80071f",
+      "hotel_id": "mock-1e9f2a89-4904-4ddc-b4c8-2cbf09abe470",
+      "room_name": "Standard Room",
+      "meal_plan": "No meal specified",
+      "base_price": 4313,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.268Z"
+    },
+    {
+      "id": "mock-room-848eb2f9-b680-44ce-aee9-8aca1960ca6d",
+      "hotel_id": "mock-1d1652ed-1c46-4017-b3c6-97f9442b8f53",
+      "room_name": "Standard Room",
+      "meal_plan": "No meal specified",
+      "base_price": 7406,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.353Z"
+    },
+    {
+      "id": "mock-room-ea6d789d-0721-4418-b79a-3b91883088f1",
+      "hotel_id": "mock-442d3481-a065-45bb-98e3-d4e9bd94c22f",
+      "room_name": "Standard Room",
+      "meal_plan": "No meal specified",
+      "base_price": 10113,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.410Z"
+    },
+    {
+      "id": "mock-room-15942937-8390-4d72-acdc-d872cc36735e",
+      "hotel_id": "mock-ed72fab8-db88-419b-a931-d2ff051e136c",
+      "room_name": "Standard Room",
+      "meal_plan": "No meal specified",
+      "base_price": 10831,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.468Z"
+    },
+    {
+      "id": "mock-room-98c971b3-1729-4adf-9602-0546662e97b0",
+      "hotel_id": "mock-a9673c27-c98d-49ec-af48-3c29d0738062",
+      "room_name": "Standard Room",
+      "meal_plan": "Breakfast included",
+      "base_price": 6860,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.516Z"
+    },
+    {
+      "id": "mock-room-8c08b614-e23b-479e-bcca-9bbc819ac49d",
+      "hotel_id": "mock-76098efb-e974-4db8-b45e-3c6ea9a09cc2",
+      "room_name": "Standard Room",
+      "meal_plan": "No meal specified",
+      "base_price": 8775,
+      "currency": "INR",
+      "created_at": "2026-05-01T17:58:37.566Z"
     }
   ],
   "price_history": [
@@ -29394,6 +29670,162 @@
       "check_out": "2026-04-14T00:00:00.000Z",
       "scraped_at": "2026-04-13T10:40:28.363Z",
       "created_at": "2026-04-13T10:40:28.363Z"
+    },
+    {
+      "id": "mock-price-0ae128a6-f93a-4809-b7af-6f47dfd52bdb",
+      "hotel_id": "mock-2af6033f-131b-4fe5-b44d-d93af9882c49",
+      "room_type_id": "mock-room-f2352164-aee7-4f99-94bd-b36fe9d87e6f",
+      "stay_date": "2026-05-01",
+      "price": 14792,
+      "currency": "INR",
+      "source": "booking",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:36.955Z",
+      "scraped_at": "2026-05-01T17:58:36.955Z"
+    },
+    {
+      "id": "mock-price-f863ccd2-39f3-4eac-bb0f-d1ee740b1fcd",
+      "hotel_id": "mock-29759047-cb90-4095-8f16-f325437fa135",
+      "room_type_id": "mock-room-49359925-a3a2-46f5-85fe-0197dc9cb642",
+      "stay_date": "2026-05-01",
+      "price": 10410,
+      "currency": "INR",
+      "source": "booking",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.012Z",
+      "scraped_at": "2026-05-01T17:58:37.012Z"
+    },
+    {
+      "id": "mock-price-0d9d3bd8-a469-4e53-ab97-b87cba1b9ec4",
+      "hotel_id": "mock-32b946c6-6627-4dd3-912f-f9eb34bd506a",
+      "room_type_id": "mock-room-c729873f-0ced-490f-a476-553357bf482f",
+      "stay_date": "2026-05-01",
+      "price": 9216,
+      "currency": "INR",
+      "source": "booking",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.069Z",
+      "scraped_at": "2026-05-01T17:58:37.069Z"
+    },
+    {
+      "id": "mock-price-9ab08984-0cc6-488c-a6fe-6c9a92f34a25",
+      "hotel_id": "mock-9b80145d-757a-4e1b-947f-57a95122a73d",
+      "room_type_id": "mock-room-3c4b276d-808d-4e78-9ae3-bf8dd3ca488d",
+      "stay_date": "2026-05-01",
+      "price": 8962,
+      "currency": "INR",
+      "source": "booking",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.126Z",
+      "scraped_at": "2026-05-01T17:58:37.126Z"
+    },
+    {
+      "id": "mock-price-f03047f4-6a72-48e7-9898-028c19f42556",
+      "hotel_id": "mock-34700b55-0010-4d7f-aa94-08d225f8b148",
+      "room_type_id": "mock-room-aa38158a-f1c5-4bc2-ab28-183b1799f8f9",
+      "stay_date": "2026-05-01",
+      "price": 13748,
+      "currency": "INR",
+      "source": "booking",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.187Z",
+      "scraped_at": "2026-05-01T17:58:37.187Z"
+    },
+    {
+      "id": "mock-price-eb8251a3-ae0a-4c00-b42a-288c8959d84b",
+      "hotel_id": "mock-9c21e097-2816-4035-8bc1-335bac92ac81",
+      "room_type_id": "mock-room-a7a54fab-0f75-44f7-91e7-1acc30f32c7a",
+      "stay_date": "2026-05-01",
+      "price": 17434,
+      "currency": "INR",
+      "source": "booking",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.236Z",
+      "scraped_at": "2026-05-01T17:58:37.236Z"
+    },
+    {
+      "id": "mock-price-b250fce9-a762-4e31-ada2-85c6cd5e5476",
+      "hotel_id": "mock-1e9f2a89-4904-4ddc-b4c8-2cbf09abe470",
+      "room_type_id": "mock-room-dbf4a78e-b444-43dd-8ba7-72c7db80071f",
+      "stay_date": "2026-05-01",
+      "price": 4313,
+      "currency": "INR",
+      "source": "booking",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.285Z",
+      "scraped_at": "2026-05-01T17:58:37.285Z"
+    },
+    {
+      "id": "mock-price-3be72881-0ab6-4db9-91dc-c3a47742dce3",
+      "hotel_id": "mock-1d1652ed-1c46-4017-b3c6-97f9442b8f53",
+      "room_type_id": "mock-room-848eb2f9-b680-44ce-aee9-8aca1960ca6d",
+      "stay_date": "2026-05-01",
+      "price": 7406,
+      "currency": "INR",
+      "source": "makemytrip",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.371Z",
+      "scraped_at": "2026-05-01T17:58:37.371Z"
+    },
+    {
+      "id": "mock-price-d478227b-6a57-4529-81b6-dfd5a02d7b2b",
+      "hotel_id": "mock-442d3481-a065-45bb-98e3-d4e9bd94c22f",
+      "room_type_id": "mock-room-ea6d789d-0721-4418-b79a-3b91883088f1",
+      "stay_date": "2026-05-01",
+      "price": 10113,
+      "currency": "INR",
+      "source": "makemytrip",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.436Z",
+      "scraped_at": "2026-05-01T17:58:37.436Z"
+    },
+    {
+      "id": "mock-price-8c2f48e8-e3b9-4349-b39f-ace44f43a21c",
+      "hotel_id": "mock-ed72fab8-db88-419b-a931-d2ff051e136c",
+      "room_type_id": "mock-room-15942937-8390-4d72-acdc-d872cc36735e",
+      "stay_date": "2026-05-01",
+      "price": 10831,
+      "currency": "INR",
+      "source": "makemytrip",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.484Z",
+      "scraped_at": "2026-05-01T17:58:37.484Z"
+    },
+    {
+      "id": "mock-price-8114e337-da3b-41b9-a00b-1b8fb6dcd090",
+      "hotel_id": "mock-a9673c27-c98d-49ec-af48-3c29d0738062",
+      "room_type_id": "mock-room-98c971b3-1729-4adf-9602-0546662e97b0",
+      "stay_date": "2026-05-01",
+      "price": 6860,
+      "currency": "INR",
+      "source": "makemytrip",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.533Z",
+      "scraped_at": "2026-05-01T17:58:37.533Z"
+    },
+    {
+      "id": "mock-price-fb328b57-3d62-41db-bfbd-98c65797a152",
+      "hotel_id": "mock-76098efb-e974-4db8-b45e-3c6ea9a09cc2",
+      "room_type_id": "mock-room-8c08b614-e23b-479e-bcca-9bbc819ac49d",
+      "stay_date": "2026-05-01",
+      "price": 8775,
+      "currency": "INR",
+      "source": "makemytrip",
+      "check_in_date": "2026-05-01",
+      "check_out_date": "2026-05-02",
+      "created_at": "2026-05-01T17:58:37.589Z",
+      "scraped_at": "2026-05-01T17:58:37.589Z"
     }
   ],
   "scrape_logs": [
@@ -31544,6 +31976,34 @@
       },
       "hotels_count": 31,
       "finished_at": "2026-05-01T17:55:34.413Z"
+    },
+    {
+      "id": "mock-log-0747fbc5-a7c2-49c3-87b7-11cbf65e886a",
+      "started_at": "2026-05-01T17:58:36.876Z",
+      "website": "booking",
+      "city": "Mumbai",
+      "country": "India",
+      "status": "success",
+      "metadata": {
+        "check_in": "2026-05-01T17:58:36.876Z",
+        "check_out": "2026-05-02T17:58:36.876Z"
+      },
+      "hotels_count": 7,
+      "finished_at": "2026-05-01T17:58:37.302Z"
+    },
+    {
+      "id": "mock-log-7e669357-3cc7-4b05-b979-630f96e3f757",
+      "started_at": "2026-05-01T17:58:37.311Z",
+      "website": "makemytrip",
+      "city": "Mumbai",
+      "country": "India",
+      "status": "success",
+      "metadata": {
+        "check_in": "2026-05-01T17:58:36.876Z",
+        "check_out": "2026-05-02T17:58:36.876Z"
+      },
+      "hotels_count": 5,
+      "finished_at": "2026-05-01T17:58:37.610Z"
     }
   ]
 }
