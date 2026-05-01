@@ -32,27 +32,36 @@ export class BookingScraper extends BaseScraper {
       });
 
       console.log(`[${this.websiteName}] Navigating to: ${url}`);
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      
+      // Wait longer for dynamic content to load
+      await this.delay(5000);
 
       // Wait for multiple possible selectors (in case HTML structure changed)
       try {
         await Promise.race([
-          page.waitForSelector('[data-testid="property-card"]', { timeout: 15000 }),
-          page.waitForSelector('div[data-testid="property-card"]', { timeout: 15000 }),
-          page.waitForSelector('.property-card', { timeout: 15000 }),
-          page.waitForSelector('[data-component-type="s_property_card"]', { timeout: 15000 }),
-        ]).catch(() => null);
+          page.waitForSelector('[data-testid="property-card"]', { timeout: 10000 }),
+          page.waitForSelector('div[data-testid="property-card"]', { timeout: 10000 }),
+          page.waitForSelector('.property-card', { timeout: 10000 }),
+          page.waitForSelector('[data-component-type="s_property_card"]', { timeout: 10000 }),
+          page.waitForSelector('.sr-propertyitem', { timeout: 10000 }),
+          page.waitForFunction(() => document.querySelectorAll('[data-testid="property-card"]').length > 0, { timeout: 10000 }),
+        ]).catch(() => {
+          console.log(`[${this.websiteName}] No selector matched, continuing with available content`);
+        });
       } catch (e) {
         this.log(`Warning: Property card selector not found, trying to extract available hotels`, 'warn');
       }
 
       // Scroll to trigger lazy loading
       await page.evaluate(() => {
-        window.scrollBy(0, 500);
+        window.scrollBy(0, 1000);
       });
-      await this.delay(2000);
+      await this.delay(3000);
 
+      // Get page content
       const html = await page.content();
+      console.log(`[${this.websiteName}] Page loaded, HTML length: ${html.length}`);
       const $ = this.parseWithCheerio(html);
       const hotels: any[] = [];
 
@@ -67,13 +76,15 @@ export class BookingScraper extends BaseScraper {
       ];
 
       let foundHotels = false;
+      console.log(`[${this.websiteName}] Trying selectors to find hotels...`);
       for (const selector of selectors) {
         const elements = $(selector);
+        console.log(`[${this.websiteName}] Selector "${selector}": ${elements.length} elements found`);
         if (elements.length > 0) {
           this.log(`Found ${elements.length} hotels using selector: ${selector}`);
           foundHotels = true;
 
-          elements.each((_, el) => {
+          elements.each((idx, el) => {
             const $el = $(el);
             const name = $el.find('[data-testid="title"]').text().trim() ||
                         $el.find('h3').text().trim() ||
@@ -135,6 +146,12 @@ export class BookingScraper extends BaseScraper {
           if (hotels.length > 0) break;
         }
       }
+
+      if (!foundHotels) {
+        console.log(`[${this.websiteName}] No hotels found with any selector. HTML sample: ${html.substring(0, 500)}`);
+      }
+      
+      console.log(`[${this.websiteName}] Total hotels extracted: ${hotels.length}`);
 
       await page.close();
       await browser.close();
