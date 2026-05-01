@@ -126,54 +126,6 @@ export class BookingScraper extends BaseScraper {
   }
 }
 
-      // Process and save to DB
-      for (const hotel of hotels) {
-        try {
-          const savedHotel = await upsertHotel({
-            hotel_id: hotel.hotel_id,
-            name: hotel.name,
-            address: hotel.address,
-            city: hotel.city,
-            country: hotel.country,
-            rating: hotel.rating,
-            review_count: hotel.review_count,
-            latitude: hotel.latitude,
-            longitude: hotel.longitude,
-            source: hotel.source,
-          });
-
-          const roomType = await upsertRoomType({
-            hotel_id: savedHotel.id,
-            room_name: 'Standard Room',
-            meal_plan: hotel.meal_plan,
-            base_price: hotel.price,
-            currency: hotel.currency,
-          });
-
-          await insertPriceHistory({
-            hotel_id: savedHotel.id,
-            room_type_id: roomType.id,
-            stay_date: hotel.stay_date,
-            price: hotel.price,
-            currency: hotel.currency,
-            source: hotel.source,
-            check_in_date: hotel.check_in_date,
-            check_out_date: hotel.check_out_date,
-          });
-
-        } catch (dbError: any) {
-          this.log(`Error saving hotel ${hotel.name}: ${dbError.message}`, 'error');
-        }
-      }
-
-      return { hotels };
-    } catch (error: any) {
-      this.log(`Scrape failed: ${error.message}`, 'error');
-      return { hotels: [], error: error.message };
-    }
-  }
-}
-
 // Allow running directly for testing
 if (require.main === module) {
   const scraper = new BookingScraper();

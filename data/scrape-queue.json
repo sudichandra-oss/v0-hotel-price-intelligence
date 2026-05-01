@@ -59,6 +59,19 @@
       "startedAt": "2026-05-01T18:29:50.765Z",
       "completedAt": "2026-05-01T18:30:10.181Z",
       "hotelsScraped": 0
+    },
+    {
+      "id": "job-0082b7d2-277d-49c4-9387-12abf673be91",
+      "city": "Mumbai",
+      "country": "India",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-02",
+      "providers": [
+        "Booking.com",
+        "MakeMyTrip"
+      ],
+      "status": "pending",
+      "createdAt": "2026-05-01T18:34:01.076Z"
     }
   ]
 }
