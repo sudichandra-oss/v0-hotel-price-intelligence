@@ -31530,6 +31530,20 @@
       },
       "hotels_count": 34,
       "finished_at": "2026-04-13T10:40:38.462Z"
+    },
+    {
+      "id": "mock-log-098b4e6c-7cd1-4eb2-83cd-0534c369dbcc",
+      "started_at": "2026-05-01T17:55:34.306Z",
+      "website": "booking",
+      "city": "Mumbai",
+      "country": "India",
+      "status": "success",
+      "metadata": {
+        "check_in": "2026-05-01T17:55:34.306Z",
+        "check_out": "2026-05-02T17:55:34.306Z"
+      },
+      "hotels_count": 31,
+      "finished_at": "2026-05-01T17:55:34.413Z"
     }
   ]
 }
