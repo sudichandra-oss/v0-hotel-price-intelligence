@@ -13,6 +13,22 @@
       "status": "running",
       "createdAt": "2026-05-01T18:10:48.865Z",
       "startedAt": "2026-05-01T18:14:04.861Z"
+    },
+    {
+      "id": "job-79eb21fa-e916-4bb6-8629-2569789c2582",
+      "city": "Goa",
+      "country": "India",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-02",
+      "providers": [
+        "Booking.com"
+      ],
+      "status": "failed",
+      "createdAt": "2026-05-01T18:16:09.603Z",
+      "startedAt": "2026-05-01T18:16:13.644Z",
+      "completedAt": "2026-05-01T18:16:45.442Z",
+      "hotelsScraped": 0,
+      "error": "One or more providers failed"
     }
   ]
 }

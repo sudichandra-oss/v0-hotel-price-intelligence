@@ -50,6 +50,10 @@ export abstract class BaseScraper {
     };
   }
 
+  protected async launchBrowser() {
+    return await puppeteer.launch(this.getBrowserOptions());
+  }
+
   protected async fetchWithPuppeteer(url: string, waitSelector?: string) {
     const browser = await puppeteer.launch(this.getBrowserOptions());
     try {
