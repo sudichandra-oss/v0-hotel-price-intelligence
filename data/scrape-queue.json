@@ -1,0 +1,17 @@
+{
+  "jobs": [
+    {
+      "id": "job-71af303b-9be2-4c62-8af3-8229a1dece85",
+      "city": "Mumbai",
+      "country": "India",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-02",
+      "providers": [
+        "Booking.com",
+        "MakeMyTrip"
+      ],
+      "status": "pending",
+      "createdAt": "2026-05-01T18:10:48.865Z"
+    }
+  ]
+}
