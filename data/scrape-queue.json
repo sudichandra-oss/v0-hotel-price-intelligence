@@ -44,6 +44,21 @@
       "startedAt": "2026-05-01T18:27:48.618Z",
       "completedAt": "2026-05-01T18:28:07.817Z",
       "hotelsScraped": 0
+    },
+    {
+      "id": "job-f5ad5dd8-aed5-4fc8-96fb-0e95d8f46593",
+      "city": "London",
+      "country": "India",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-02",
+      "providers": [
+        "Booking.com"
+      ],
+      "status": "completed",
+      "createdAt": "2026-05-01T18:29:44.713Z",
+      "startedAt": "2026-05-01T18:29:50.765Z",
+      "completedAt": "2026-05-01T18:30:10.181Z",
+      "hotelsScraped": 0
     }
   ]
 }
