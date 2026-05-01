@@ -10,8 +10,9 @@
         "Booking.com",
         "MakeMyTrip"
       ],
-      "status": "pending",
-      "createdAt": "2026-05-01T18:10:48.865Z"
+      "status": "running",
+      "createdAt": "2026-05-01T18:10:48.865Z",
+      "startedAt": "2026-05-01T18:14:04.861Z"
     }
   ]
 }
