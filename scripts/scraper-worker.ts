@@ -7,7 +7,7 @@
  */
 
 import './scrapers/utils/polyfill';
-import { getPendingJobs, updateJobStatus } from '@/lib/scraper-queue';
+import { getPendingJobs, updateJobStatus } from '../lib/scraper-queue';
 import { BookingScraper } from './scrapers/booking-scraper';
 import { MMTScraper } from './scrapers/makemytrips-scraper';
 import { AgodaScraper } from './scrapers/agoda-scraper';
