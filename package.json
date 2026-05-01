@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "worker": "ts-node -P tsconfig.server.json scripts/scraper-worker.ts",
+    "dev:full": "concurrently \"npm run dev\" \"npm run worker\""
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
