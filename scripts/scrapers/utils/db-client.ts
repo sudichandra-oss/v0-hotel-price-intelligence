@@ -21,6 +21,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 import { getMockDb, saveMockDb } from '@/lib/mock-db';
+import { randomUUID } from 'crypto';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -32,8 +33,6 @@ if (!supabaseUrl || !supabaseKey) {
 export const supabase = (supabaseUrl && supabaseKey) 
   ? createClient(supabaseUrl, supabaseKey)
   : null;
-
-import { randomUUID } from 'crypto';
 
 export async function upsertHotel(hotelData: any) {
   if (!supabase) {
@@ -47,7 +46,17 @@ export async function upsertHotel(hotelData: any) {
     saveMockDb(db);
     return db.hotels.find((h: any) => h.hotel_id === hotelData.hotel_id);
   }
-  // ... rest of the file
+
+  const { data, error } = await supabase
+    .from('hotels')
+    .upsert([hotelData], { onConflict: 'hotel_id' })
+    .select();
+
+  if (error) {
+    console.error('Error upserting hotel:', error.message);
+    throw error;
+  }
+  return data?.[0] || null;
 }
 
 export async function upsertRoomType(roomData: any) {
@@ -62,7 +71,17 @@ export async function upsertRoomType(roomData: any) {
     saveMockDb(db);
     return db.room_types.find((r: any) => r.hotel_id === roomData.hotel_id && r.room_name === roomData.room_name);
   }
-  // ... rest of the file
+
+  const { data, error } = await supabase
+    .from('room_types')
+    .upsert([roomData], { onConflict: 'hotel_id,room_name' })
+    .select();
+
+  if (error) {
+    console.error('Error upserting room type:', error.message);
+    throw error;
+  }
+  return data?.[0] || null;
 }
 
 export async function insertPriceHistory(priceData: any) {
@@ -71,9 +90,19 @@ export async function insertPriceHistory(priceData: any) {
     const record = { id: `mock-price-${randomUUID()}`, ...priceData, created_at: new Date().toISOString(), scraped_at: new Date().toISOString() };
     db.price_history.push(record);
     saveMockDb(db);
-    return [record];
+    return record;
   }
-  // ... rest of the file
+
+  const { data, error } = await supabase
+    .from('price_history')
+    .insert([priceData])
+    .select();
+
+  if (error) {
+    console.error('Error inserting price history:', error.message);
+    throw error;
+  }
+  return data?.[0] || null;
 }
 
 export async function logScrape(logData: any) {
@@ -84,7 +113,17 @@ export async function logScrape(logData: any) {
     saveMockDb(db);
     return log;
   }
-  // ... rest of the file
+
+  const { data, error } = await supabase
+    .from('scrape_logs')
+    .insert([logData])
+    .select();
+
+  if (error) {
+    console.error('Error logging scrape:', error.message);
+    throw error;
+  }
+  return data?.[0] || null;
 }
 
 export async function updateScrapeLog(id: string, updateData: any) {
@@ -98,15 +137,18 @@ export async function updateScrapeLog(id: string, updateData: any) {
     }
     return null;
   }
+
   const { data, error } = await supabase
     .from('scrape_logs')
     .update(updateData)
-    .eq('id', id);
+    .eq('id', id)
+    .select();
 
   if (error) {
     console.error('Error updating scrape log:', error.message);
+    throw error;
   }
-  return data;
+  return data?.[0] || null;
 }
 
 export async function upsertHotels(hotels: any[]) {
