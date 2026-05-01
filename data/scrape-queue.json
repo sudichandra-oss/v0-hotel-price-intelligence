@@ -70,8 +70,27 @@
         "Booking.com",
         "MakeMyTrip"
       ],
-      "status": "pending",
-      "createdAt": "2026-05-01T18:34:01.076Z"
+      "status": "completed",
+      "createdAt": "2026-05-01T18:34:01.076Z",
+      "startedAt": "2026-05-01T18:40:32.078Z",
+      "completedAt": "2026-05-01T18:40:33.316Z",
+      "hotelsScraped": 16
+    },
+    {
+      "id": "job-64443f77-5b0a-41b9-8c9d-61ea994e0769",
+      "city": "Goa",
+      "country": "India",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-02",
+      "providers": [
+        "Booking.com",
+        "MakeMyTrip"
+      ],
+      "status": "completed",
+      "createdAt": "2026-05-01T18:40:26.078Z",
+      "startedAt": "2026-05-01T18:40:35.317Z",
+      "completedAt": "2026-05-01T18:40:36.512Z",
+      "hotelsScraped": 15
     }
   ]
 }
