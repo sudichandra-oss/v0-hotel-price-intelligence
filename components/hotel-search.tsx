@@ -40,40 +40,87 @@ export function HotelSearch({
   const [loading, setLoading] = useState(false);
   const [selectedStars, setSelectedStars] = useState<number[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>('');
+  const [checkOutDate, setCheckOutDate] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [fetchedAt, setFetchedAt] = useState<string>('');
 
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   useEffect(() => {
-    // Set initial date after mount to prevent hydration mismatch
-    setSelectedDate(new Date().toISOString().split('T')[0]);
+    // Set initial dates after mount to prevent hydration mismatch
+    const today = new Date();
+    const tomorrow = new Date(today.getTime() + 86400000);
+    setSelectedDate(today.toISOString().split('T')[0]);
+    setCheckOutDate(tomorrow.toISOString().split('T')[0]);
   }, []);
 
-  const searchHotels = async (searchCity: string, stars: number[], date: string) => {
-    if (!searchCity) return;
+  const searchHotels = async (searchCity: string, stars: number[], checkIn: string, checkOut: string) => {
+    if (!searchCity || !checkIn || !checkOut) return;
     setLoading(true);
+    setError('');
     try {
-      let url = `/api/hotels?city=${encodeURIComponent(searchCity)}&date=${date}`;
-      if (stars.length > 0) {
-        url += `&star=${stars.join(',')}`;
+      console.log(`[v0] Searching hotels in ${searchCity} from ${checkIn} to ${checkOut}`);
+      
+      // Call the NEW live scraping API endpoint
+      const response = await fetch('/api/scrape/live', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          city: searchCity,
+          checkIn: checkIn,
+          checkOut: checkOut,
+          providers: ['Booking.com', 'Agoda', 'MakeMyTrip', 'Expedia'],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
       }
-      const res = await fetch(url);
-      const data = await res.json();
-      setHotels(data);
-    } catch (error) {
-      console.error('Search error:', error);
+
+      const data = await response.json();
+      console.log(`[v0] Received ${data.hotels?.length || 0} hotels from live scrape`);
+
+      if (!data.success && (!data.hotels || data.hotels.length === 0)) {
+        setError('No hotels found. Please try different dates or cities.');
+        setHotels([]);
+      } else {
+        // Filter by star rating if selected
+        let filtered = data.hotels || [];
+        if (stars.length > 0) {
+          filtered = filtered.filter((h: any) => {
+            const starCategory = parseInt(h.star_category) || 3;
+            return stars.includes(starCategory);
+          });
+        }
+
+        setHotels(filtered);
+        setFetchedAt(new Date(data.fetchedAt).toLocaleTimeString());
+
+        // Log data sources
+        if (data.sources && data.sources.length > 0) {
+          console.log(`[v0] Data from: ${data.sources.join(', ')}`);
+        }
+        if (data.errors && Object.keys(data.errors).length > 0) {
+          console.warn('[v0] Some sources failed:', data.errors);
+        }
+      }
+    } catch (error: any) {
+      console.error('[v0] Search error:', error);
+      setError(error.message || 'Failed to fetch hotels. Please try again.');
+      setHotels([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (query.length > 2) {
-      const timer = setTimeout(() => searchHotels(query, selectedStars, selectedDate), 500);
+    if (query.length > 2 && selectedDate && checkOutDate) {
+      const timer = setTimeout(() => searchHotels(query, selectedStars, selectedDate, checkOutDate), 800);
       return () => clearTimeout(timer);
     }
-  }, [query, selectedStars, selectedDate]);
+  }, [query, selectedStars, selectedDate, checkOutDate]);
 
   const toggleStar = (star: number) => {
     setSelectedStars(prev => 
@@ -123,18 +170,49 @@ export function HotelSearch({
           </div>
           <div className="h-4 w-px bg-slate-100 mx-2 hidden sm:block" />
           <div className="flex items-center gap-2">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-2">Market Cycle</p>
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mr-2">Dates</p>
             <input 
               type="date" 
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
               className="bg-white border border-slate-100 rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-900 focus:outline-none focus:border-slate-900 transition-colors cursor-pointer"
             />
+            <span className="text-slate-300 text-xs">→</span>
+            <input 
+              type="date" 
+              value={checkOutDate}
+              onChange={(e) => setCheckOutDate(e.target.value)}
+              className="bg-white border border-slate-100 rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-slate-900 focus:outline-none focus:border-slate-900 transition-colors cursor-pointer"
+            />
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 overflow-y-auto max-h-[calc(100vh-250px)] pr-2 scrollbar-hide pb-20">
+      {/* Loading State */}
+      {loading && (
+        <div className="flex items-center justify-center py-24">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-10 h-10 border-3 border-slate-200 border-t-slate-900 rounded-full animate-spin" />
+            <p className="text-sm font-bold text-slate-500">Fetching live hotel prices...</p>
+          </div>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="p-6 rounded-2xl bg-red-50 border border-red-100">
+          <p className="text-sm font-bold text-red-700 uppercase tracking-widest">{error}</p>
+        </div>
+      )}
+
+      {/* Data Freshness Indicator */}
+      {fetchedAt && !loading && (
+        <div className="text-center text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+          Last updated: {fetchedAt}
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 overflow-y-auto max-h-[calc(100vh-300px)] pr-2 scrollbar-hide pb-20">
         {hotels.map((hotel) => {
           const isMyHotel = myHotelId === hotel.id;
           const isCompetitor = competitors.some(c => c.id === hotel.id);

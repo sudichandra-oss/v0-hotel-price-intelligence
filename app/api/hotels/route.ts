@@ -1,78 +1,60 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getMockDb } from '@/lib/mock-db';
 
+/**
+ * Hotels API - Delegates to live scraper for real-time pricing
+ * Backward compatible with existing client calls
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const city = searchParams.get('city');
     const star = searchParams.get('star'); // e.g. "3,4,5"
     const date = searchParams.get('date'); // e.g. "2026-04-13"
+    const checkIn = date || new Date().toISOString().split('T')[0];
+    const checkOut = searchParams.get('checkOut') || new Date(Date.now() + 86400000).toISOString().split('T')[0];
 
-    const db = getMockDb();
-    let hotels = db.hotels || [];
-    
-    console.log('[v0] Hotels API - Total hotels in DB:', hotels.length);
-    console.log('[v0] Hotels API - Total prices in DB:', (db.price_history || []).length);
-    console.log('[v0] Hotels API - Available sources:', [...new Set((db.price_history || []).map((p: any) => p.source))]);
-
-    if (city) {
-      hotels = hotels.filter((h: any) => h.city?.toLowerCase() === city.toLowerCase());
+    if (!city) {
+      return NextResponse.json({ error: 'Missing city parameter' }, { status: 400 });
     }
 
-    if (star) {
-      const starArray = star.split(',').map(s => parseInt(s));
-      hotels = hotels.filter((h: any) => starArray.includes(h.star_category));
-    }
+    console.log(`[v0] Hotels API: Fetching live data for ${city} (${checkIn} to ${checkOut})`);
 
-    // Join with price history to find best rates across all sources
-    const priceHistory = db.price_history || [];
-    
-    const hotelsWithPricing = hotels.map((h: any) => {
-      // Get all prices for this hotel
-      let hotelPrices = priceHistory.filter((p: any) => p.hotel_id === h.id);
-      
-      // Filter by specific stay date if provided
-      if (date) {
-        hotelPrices = hotelPrices.filter((p: any) => p.stay_date === date);
-      }
-
-      // Group by source and find the LATEST price for each source
-      const latestBySource: Record<string, any> = {};
-      hotelPrices.forEach((p: any) => {
-        if (!latestBySource[p.source] || new Date(p.scraped_at) > new Date(latestBySource[p.source].scraped_at)) {
-          latestBySource[p.source] = p;
-        }
-      });
-
-      const sourceBreakdown = Object.values(latestBySource).map((p: any) => ({
-        source: p.source,
-        price: p.price
-      }));
-      
-      if (sourceBreakdown.length > 0) {
-        console.log(`[v0] Hotel ${h.name}: found ${sourceBreakdown.length} sources:`, sourceBreakdown.map((s: any) => `${s.source}:₹${s.price}`).join(', '));
-      }
-
-      // Find the absolute lowest price across all sources
-      const competitivePrices = sourceBreakdown.map(s => s.price);
-      const lowestPrice = competitivePrices.length > 0 ? Math.min(...competitivePrices) : null;
-      const bestSource = sourceBreakdown.find(s => s.price === lowestPrice)?.source || null;
-
-      // Default price (for legacy UI compatibility)
-      const defaultPrice = latestBySource['booking']?.price || (sourceBreakdown.length > 0 ? sourceBreakdown[0].price : null);
-
-      return {
-        ...h,
-        price: lowestPrice || defaultPrice,
-        source: bestSource || h.source || 'booking',
-        lowest_price: lowestPrice,
-        lowest_source: bestSource,
-        sourceBreakdown
-      };
+    // Call the live scraper endpoint
+    const scraperUrl = new URL('/api/scrape/live', request.nextUrl.origin);
+    const response = await fetch(scraperUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        city,
+        checkIn,
+        checkOut,
+        providers: ['Booking.com', 'Agoda', 'MakeMyTrip', 'Expedia'],
+      }),
     });
 
-    return NextResponse.json(hotelsWithPricing);
+    if (!response.ok) {
+      console.error(`[v0] Live scraper failed: ${response.status}`);
+      // Fallback to empty array instead of error
+      return NextResponse.json([]);
+    }
+
+    const data = await response.json();
+    let hotels = data.hotels || [];
+
+    // Filter by star category if provided
+    if (star) {
+      const starArray = star.split(',').map(s => parseInt(s));
+      hotels = hotels.filter((h: any) => {
+        const hotelStar = parseInt(h.star_category) || 3;
+        return starArray.includes(hotelStar);
+      });
+    }
+
+    console.log(`[v0] Hotels API: Returning ${hotels.length} hotels`);
+    return NextResponse.json(hotels);
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('[v0] Hotels API error:', error);
+    // Return empty array on error rather than throwing
+    return NextResponse.json([]);
   }
 }
