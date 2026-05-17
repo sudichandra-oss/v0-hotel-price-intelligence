@@ -122,25 +122,29 @@ export async function POST(request: NextRequest) {
           return;
         }
 
+        console.log(`[v0] Starting scraper for ${sourceLabel} - City: ${city}`);
         const params = { city, country: 'India', checkIn: checkInDate, checkOut: checkOutDate };
         const result = await executeScraperWithTimeout(scraper, params, 35000);
 
         if (result && result.hotels && result.hotels.length > 0) {
           activeSources.push(sourceLabel);
+          const hotelCount = result.hotels.length;
           results.push(
             ...result.hotels.map((hotel: any) => ({
               ...hotel,
+              source: sourceLabel,
               timestamp: new Date().toISOString(),
             }))
           );
-          console.log(`[v0] ${sourceLabel}: Retrieved ${result.hotels.length} hotels`);
+          console.log(`[v0] ${sourceLabel}: Successfully retrieved ${hotelCount} hotels for ${city}`);
         } else {
-          console.warn(`[v0] ${sourceLabel}: No hotels found`);
+          console.warn(`[v0] ${sourceLabel}: No hotels returned for ${city}. Result:`, result);
+          errors[sourceLabel] = 'No hotels found in search results';
         }
       } catch (error: any) {
         const providerName = provider;
         errors[providerName] = error.message || 'Unknown error';
-        console.error(`[v0] Scraper error for ${provider}:`, error.message);
+        console.error(`[v0] ${providerName} scraper failed for ${city}:`, error.message || error);
       }
     });
 
