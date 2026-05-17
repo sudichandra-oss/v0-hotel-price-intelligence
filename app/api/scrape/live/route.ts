@@ -153,6 +153,25 @@ export async function POST(request: NextRequest) {
     // Sort by price (lowest first)
     const sortedHotels = deduplicatedHotels.sort((a, b) => a.price - b.price);
 
+    // Handle empty results
+    if (!sortedHotels || sortedHotels.length === 0) {
+      console.warn(`[v0] No valid hotels found after validation. Returning empty results.`);
+      
+      const response: LiveScrapeResponse = {
+        success: Object.keys(errors).length === 0, // Success if no errors (just no results)
+        hotels: [],
+        sources: activeSources,
+        fetchedAt: new Date().toISOString(),
+        errors: Object.keys(errors).length > 0 ? errors : undefined,
+      };
+
+      // Still cache empty results briefly (3 minutes)
+      const cacheKey = generateCacheKey(city, checkIn, checkOut);
+      await setInCache(cacheKey, [], 180);
+
+      return NextResponse.json(response);
+    }
+
     // Group by hotel name to show source breakdown
     const hotelsByName = new Map<string, HotelPrice[]>();
     sortedHotels.forEach((hotel) => {
@@ -170,15 +189,18 @@ export async function POST(request: NextRequest) {
         const sourceBreakdown = hotelGroup.map((h) => ({
           source: h.source,
           price: h.price,
-          currency: h.currency,
+          currency: h.currency || 'INR',
           meal_plan: h.meal_plan || 'N/A',
           timestamp: h.timestamp,
         }));
 
+        const prices = hotelGroup.map((h) => h.price).filter((p) => p && !isNaN(p));
+        const lowestPrice = prices.length > 0 ? Math.min(...prices) : primary.price;
+
         return {
           ...primary,
           sourceBreakdown,
-          lowestPrice: Math.min(...hotelGroup.map((h) => h.price)),
+          lowestPrice,
           priceCompare: hotelGroup.length > 1 ? hotelGroup.length : 0,
         };
       })
@@ -220,13 +242,23 @@ export async function POST(request: NextRequest) {
  * - Keeps lowest price per hotel
  */
 function deduplicateAndValidateHotels(hotels: HotelPrice[]): HotelPrice[] {
-  // First, validate all prices
-  const validHotels = hotels.filter((hotel) => {
-    const validation = validatePrice(hotel.price.toString(), hotel.source, hotel.timestamp);
-    return validation.isValid;
+  // First filter out any hotels with missing or invalid price data
+  const hotelsWithPrices = hotels.filter((hotel) => {
+    return hotel && hotel.price && typeof hotel.price === 'number' && !isNaN(hotel.price) && hotel.price > 0;
   });
 
-  console.log(`[v0] Price validation: ${hotels.length} hotels -> ${validHotels.length} valid`);
+  // Then validate all prices
+  const validHotels = hotelsWithPrices.filter((hotel) => {
+    try {
+      const validation = validatePrice(hotel.price.toString(), hotel.source, hotel.timestamp);
+      return validation.isValid;
+    } catch (err) {
+      console.warn(`[v0] Price validation failed for ${hotel.name}:`, err);
+      return false;
+    }
+  });
+
+  console.log(`[v0] Price validation: ${hotels.length} hotels -> ${hotelsWithPrices.length} with price -> ${validHotels.length} valid`);
 
   // Group by normalized name and city
   const seen = new Map<string, HotelPrice[]>();
