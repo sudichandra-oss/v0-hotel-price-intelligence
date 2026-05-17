@@ -7,7 +7,8 @@ export interface MockDb {
   hotels: any[];
   room_types: any[];
   price_history: any[];
-  scrape_logs: any[];
+  scrape_logs?: any[];
+  [key: string]: any;
 }
 
 export function getMockDb(): MockDb {

@@ -48,10 +48,18 @@ export function ScrapeStats() {
 
   const fetchStats = async () => {
     try {
+      console.log('[v0] Fetching stats...');
       const res = await fetch('/api/scrape/logs?type=stats');
+      if (!res.ok) {
+        console.error('[v0] Stats API returned:', res.status);
+        return;
+      }
       const data = await res.json();
-      if (data.success) {
+      console.log('[v0] Stats data received:', data);
+      if (data.success && data.stats) {
         setStats(data.stats);
+      } else {
+        console.warn('[v0] Stats API returned success=false or no stats');
       }
     } catch (error) {
       console.error('[v0] Error fetching stats:', error);
@@ -60,12 +68,22 @@ export function ScrapeStats() {
 
   const fetchLogs = async () => {
     try {
+      console.log('[v0] Fetching logs...');
       const res = await fetch('/api/scrape/logs?type=logs&limit=20');
-      const data = await res.json();
-      if (data.success) {
-        setLogs(data.logs);
+      if (!res.ok) {
+        console.error('[v0] Logs API returned:', res.status);
         setLoading(false);
+        return;
       }
+      const data = await res.json();
+      console.log('[v0] Logs data received:', data);
+      if (data.success && data.logs) {
+        setLogs(data.logs);
+      } else {
+        console.warn('[v0] Logs API returned success=false or no logs');
+        setLogs([]);
+      }
+      setLoading(false);
     } catch (error) {
       console.error('[v0] Error fetching logs:', error);
       setLoading(false);
@@ -109,8 +127,14 @@ export function ScrapeStats() {
       </div>
 
       {/* Stats Tab */}
-      {activeTab === 'stats' && stats && (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      {activeTab === 'stats' && (
+        <div>
+          {loading || !stats ? (
+            <div className="text-center py-8">
+              <p className="text-slate-500">Loading statistics...</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           <div className="rounded-xl bg-white border border-slate-100 p-4">
             <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">
               Total Scraped
@@ -168,6 +192,8 @@ export function ScrapeStats() {
               {stats.partialScrapers + stats.failedScrapers}
             </p>
           </div>
+        </div>
+          )}
         </div>
       )}
 

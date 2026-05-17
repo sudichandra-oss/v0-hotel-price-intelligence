@@ -206,7 +206,20 @@ export function getScrapStats() {
     };
   } catch (error: any) {
     console.error('[v0] Error getting scrape stats:', error);
-    return null;
+    // Return default empty stats instead of null
+    return {
+      totalScraped: 0,
+      totalSaved: 0,
+      totalHotels: 0,
+      totalPriceRecords: 0,
+      successfulScrapers: 0,
+      partialScrapers: 0,
+      failedScrapers: 0,
+      uniqueCities: 0,
+      last24hScraped: 0,
+      totalScrapeLogs: 0,
+      lastScrapeTime: null,
+    };
   }
 }
 

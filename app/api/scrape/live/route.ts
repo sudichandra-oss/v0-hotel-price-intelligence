@@ -212,12 +212,19 @@ export async function POST(request: NextRequest) {
       .slice(0, 50); // Limit to top 50 hotels
 
     // Save scraped hotels to database
+    console.log(`[v0] Preparing to save ${responseHotels.length} hotels`);
+    if (responseHotels.length > 0) {
+      console.log(`[v0] Sample hotel for saving:`, JSON.stringify(responseHotels[0], null, 2).substring(0, 500));
+    }
+    
     const startTime = Date.now();
     const savedCount = saveScrapedHotels(responseHotels);
     const duration = Date.now() - startTime;
 
+    console.log(`[v0] Saved ${savedCount} hotels in ${duration}ms`);
+
     // Save scrape log
-    saveScrapeLog({
+    const logEntry = {
       id: `log-${Date.now()}`,
       city,
       checkIn,
@@ -228,10 +235,13 @@ export async function POST(request: NextRequest) {
       sources: activeSources,
       errors: Object.keys(errors).length > 0 ? errors : undefined,
       status: Object.keys(errors).length === 0 ? 'success' : 'partial',
-      started_at: new Date(Date.now() - 30000).toISOString(), // Approximate
+      started_at: new Date(Date.now() - 30000).toISOString(),
       completed_at: new Date().toISOString(),
       duration_ms: duration,
-    });
+    };
+    
+    console.log(`[v0] Saving log entry:`, JSON.stringify(logEntry, null, 2));
+    saveScrapeLog(logEntry);
 
     const response: LiveScrapeResponse = {
       success: Object.keys(errors).length < providers.length,
