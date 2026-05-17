@@ -5,6 +5,7 @@ import { Hotel } from '@/lib/supabase';
 import { HotelSearch } from '@/components/hotel-search';
 import { PriceAnalytics } from '@/components/price-analytics';
 import { PriceBenchmark } from '@/components/price-benchmark';
+import { ScrapeStats } from '@/components/scrape-stats';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
@@ -432,9 +433,7 @@ export default function Dashboard() {
 
           {/* Scraper Data */}
           <TabsContent value="scraper-data" className="mt-0 outline-none animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="bg-white border border-slate-50 rounded-[3.5rem] p-12 min-h-[700px] shadow-sm">
-              <ScraperDataTab />
-            </div>
+            <ScrapeStats />
           </TabsContent>
         </Tabs>
       </div>

@@ -7,6 +7,7 @@ import { GoogleScraper } from '@/scripts/scrapers/google-scraper';
 import { validatePrice, convertPrice, getLowestPrice } from '@/lib/price-validator';
 import { deduplicateHotels, HotelRecord } from '@/lib/hotel-matcher';
 import { getFromCache, setInCache, generateCacheKey } from '@/lib/cache';
+import { saveScrapedHotels, saveScrapeLog } from '@/lib/scrape-storage';
 
 export const maxDuration = 120; // 2 minute timeout for scraping
 
@@ -210,6 +211,28 @@ export async function POST(request: NextRequest) {
       })
       .slice(0, 50); // Limit to top 50 hotels
 
+    // Save scraped hotels to database
+    const startTime = Date.now();
+    const savedCount = saveScrapedHotels(responseHotels);
+    const duration = Date.now() - startTime;
+
+    // Save scrape log
+    saveScrapeLog({
+      id: `log-${Date.now()}`,
+      city,
+      checkIn,
+      checkOut,
+      providers,
+      hotels_found: responseHotels.length,
+      hotels_saved: savedCount,
+      sources: activeSources,
+      errors: Object.keys(errors).length > 0 ? errors : undefined,
+      status: Object.keys(errors).length === 0 ? 'success' : 'partial',
+      started_at: new Date(Date.now() - 30000).toISOString(), // Approximate
+      completed_at: new Date().toISOString(),
+      duration_ms: duration,
+    });
+
     const response: LiveScrapeResponse = {
       success: Object.keys(errors).length < providers.length,
       hotels: responseHotels,
@@ -223,7 +246,7 @@ export async function POST(request: NextRequest) {
     await setInCache(cacheKey, responseHotels, 600); // 10 minutes
 
     console.log(
-      `[v0] Live scrape completed: ${responseHotels.length} unique hotels from ${activeSources.join(', ')}`
+      `[v0] Live scrape completed: ${responseHotels.length} hotels found, ${savedCount} saved to database`
     );
 
     return NextResponse.json(response);
