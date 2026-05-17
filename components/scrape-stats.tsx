@@ -229,20 +229,24 @@ export function ScrapeStats() {
                 <tbody>
                   {logs.map((log) => (
                     <tr key={log.id} className="border-b border-slate-100 hover:bg-slate-50">
-                      <td className="py-3 px-4 font-semibold text-slate-900">{log.city}</td>
+                      <td className="py-3 px-4 font-semibold text-slate-900">{log.city || 'Unknown'}</td>
                       <td className="py-3 px-4 text-slate-700">
-                        {log.hotels_found} / {log.hotels_saved}
+                        {log.hotels_found !== null && log.hotels_found !== undefined ? log.hotels_found : '0'} / {log.hotels_saved !== null && log.hotels_saved !== undefined ? log.hotels_saved : '0'}
                       </td>
                       <td className="py-3 px-4 text-slate-700">
                         <div className="flex gap-1 flex-wrap">
-                          {log.sources.map((source) => (
-                            <span
-                              key={source}
-                              className="inline-block bg-slate-100 rounded-full px-2 py-1 text-xs font-bold text-slate-700"
-                            >
-                              {source}
-                            </span>
-                          ))}
+                          {log.sources && log.sources.length > 0 ? (
+                            log.sources.map((source) => (
+                              <span
+                                key={source}
+                                className="inline-block bg-slate-100 rounded-full px-2 py-1 text-xs font-bold text-slate-700"
+                              >
+                                {source}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="text-xs text-slate-400">-</span>
+                          )}
                         </div>
                       </td>
                       <td className="py-3 px-4">
@@ -255,11 +259,11 @@ export function ScrapeStats() {
                               : 'bg-red-100 text-red-700'
                           }`}
                         >
-                          {log.status}
+                          {log.status || 'unknown'}
                         </span>
                       </td>
                       <td className="py-3 px-4 text-slate-600 text-xs">
-                        {new Date(log.completed_at).toLocaleTimeString()}
+                        {log.completed_at ? new Date(log.completed_at).toLocaleTimeString() : 'Unknown'}
                       </td>
                     </tr>
                   ))}

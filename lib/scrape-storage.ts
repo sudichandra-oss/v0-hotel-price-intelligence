@@ -177,19 +177,45 @@ export function getScrapStats() {
     const hotels = db.hotels || [];
     const priceHistory = db.price_history || [];
 
-    const totalScraped = logs.reduce((sum, log) => sum + log.hotels_found, 0);
-    const totalSaved = logs.reduce((sum, log) => sum + log.hotels_saved, 0);
+    // Calculate stats, handling null/undefined values
+    const totalScraped = logs.reduce((sum, log) => {
+      const found = log.hotels_found || 0;
+      return sum + (typeof found === 'number' ? found : 0);
+    }, 0);
+
+    const totalSaved = logs.reduce((sum, log) => {
+      const saved = log.hotels_saved || 0;
+      return sum + (typeof saved === 'number' ? saved : 0);
+    }, 0);
+
     const successfulScrapers = logs.filter((log) => log.status === 'success').length;
     const partialScrapers = logs.filter((log) => log.status === 'partial').length;
     const failedScrapers = logs.filter((log) => log.status === 'failed').length;
 
-    // Get unique cities scraped
-    const uniqueCities = new Set(logs.map((log) => log.city.toLowerCase())).size;
+    // Get unique cities scraped, handling null cities
+    const uniqueCities = new Set(
+      logs
+        .map((log) => log.city?.toLowerCase())
+        .filter((city) => city !== null && city !== undefined)
+    ).size;
 
     // Get last 24 hours activity
     const last24h = new Date(Date.now() - 86400000);
-    const last24hLogs = logs.filter((log) => new Date(log.completed_at) > last24h);
-    const last24hScraped = last24hLogs.reduce((sum, log) => sum + log.hotels_found, 0);
+    const last24hLogs = logs.filter((log) => {
+      try {
+        return log.completed_at && new Date(log.completed_at) > last24h;
+      } catch {
+        return false;
+      }
+    });
+    const last24hScraped = last24hLogs.reduce((sum, log) => {
+      const found = log.hotels_found || 0;
+      return sum + (typeof found === 'number' ? found : 0);
+    }, 0);
+
+    // Get last scrape time (most recent successful or any log)
+    const lastLog = logs.length > 0 ? logs[logs.length - 1] : null;
+    const lastScrapeTime = lastLog?.completed_at ? lastLog.completed_at : null;
 
     return {
       totalScraped,
@@ -202,7 +228,7 @@ export function getScrapStats() {
       uniqueCities,
       last24hScraped,
       totalScrapeLogs: logs.length,
-      lastScrapeTime: logs.length > 0 ? logs[logs.length - 1].completed_at : null,
+      lastScrapeTime,
     };
   } catch (error: any) {
     console.error('[v0] Error getting scrape stats:', error);
