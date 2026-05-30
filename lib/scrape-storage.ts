@@ -155,12 +155,30 @@ export function saveScrapeLog(log: ScrapeLog): void {
 }
 
 /**
- * Get all scrape logs
+ * Get all scrape logs (with schema normalization for mixed old/new data)
  */
 export function getScrapeLog(): ScrapeLog[] {
   try {
     const db = getMockDb();
-    return db.scrape_logs || [];
+    const rawLogs = db.scrape_logs || [];
+    
+    // Normalize logs that may have old or new schema
+    return rawLogs.map((log: any) => {
+      // Handle both old schema (website, status, hotels_count) and new schema
+      return {
+        id: log.id || `log-${Date.now()}`,
+        city: log.city || 'Unknown',
+        checkIn: log.metadata?.check_in || log.checkIn || new Date().toISOString().split('T')[0],
+        checkOut: log.metadata?.check_out || log.checkOut || new Date(Date.now() + 86400000).toISOString().split('T')[0],
+        providers: log.providers || [log.website] || [],
+        hotels_found: log.hotels_found !== undefined ? log.hotels_found : log.hotels_count || 0,
+        hotels_saved: log.hotels_saved !== undefined ? log.hotels_saved : log.hotels_count || 0,
+        sources: log.sources || (log.website ? [log.website] : []),
+        status: log.status || 'unknown',
+        completed_at: log.completed_at || log.finished_at || new Date().toISOString(),
+        duration_ms: log.duration_ms || 0,
+      };
+    }).filter((log: any) => log.completed_at && log.city); // Filter out invalid logs
   } catch (error: any) {
     console.error('[v0] Error reading scrape logs:', error);
     return [];
@@ -173,9 +191,18 @@ export function getScrapeLog(): ScrapeLog[] {
 export function getScrapStats() {
   try {
     const db = getMockDb();
-    const logs = db.scrape_logs || [];
+    const rawLogs = db.scrape_logs || [];
     const hotels = db.hotels || [];
     const priceHistory = db.price_history || [];
+
+    // Normalize logs to handle mixed old/new schema
+    const logs = rawLogs.map((log: any) => ({
+      hotels_found: log.hotels_found !== undefined ? log.hotels_found : log.hotels_count || 0,
+      hotels_saved: log.hotels_saved !== undefined ? log.hotels_saved : log.hotels_count || 0,
+      status: log.status || 'unknown',
+      city: log.city || 'Unknown',
+      completed_at: log.completed_at || log.finished_at || new Date().toISOString(),
+    }));
 
     // Calculate stats, handling null/undefined values
     const totalScraped = logs.reduce((sum, log) => {

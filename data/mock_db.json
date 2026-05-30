@@ -5693,7 +5693,7 @@
       "id": "mock-6094f3c9-0b45-4724-94d5-ddf4762afab4",
       "hotel_id": "the-taj-mahal-tower-ranchi",
       "name": "The Taj Mahal Tower",
-      "city": "RANCHI",
+      "city": "ranchi",
       "country": "India",
       "rating": 9.2,
       "review_count": 3100,
@@ -5702,13 +5702,13 @@
       "longitude": 72.8333,
       "source": "expedia",
       "created_at": "2026-05-17T02:25:22.816Z",
-      "updated_at": "2026-05-17T02:56:36.357Z"
+      "updated_at": "2026-05-30T16:52:48.808Z"
     },
     {
       "id": "mock-6bd337f0-3601-4754-ad2b-32bad2019edc",
       "hotel_id": "trident-nariman-point-ranchi",
       "name": "Trident Nariman Point",
-      "city": "RANCHI",
+      "city": "ranchi",
       "country": "India",
       "rating": 9,
       "review_count": 2800,
@@ -5717,13 +5717,13 @@
       "longitude": 72.8212,
       "source": "expedia",
       "created_at": "2026-05-17T02:25:22.842Z",
-      "updated_at": "2026-05-17T02:56:36.400Z"
+      "updated_at": "2026-05-30T16:52:48.860Z"
     },
     {
       "id": "mock-8f81d617-beb2-4b59-80db-eec4e4081eab",
       "hotel_id": "jw-marriott-ranchi",
       "name": "JW Marriott",
-      "city": "RANCHI",
+      "city": "ranchi",
       "country": "India",
       "rating": 8.8,
       "review_count": 950,
@@ -5732,13 +5732,13 @@
       "longitude": 72.85,
       "source": "expedia",
       "created_at": "2026-05-17T02:25:22.872Z",
-      "updated_at": "2026-05-17T02:56:36.432Z"
+      "updated_at": "2026-05-30T16:52:48.924Z"
     },
     {
       "id": "mock-0b999cf4-007c-49b9-a799-5f091c433039",
       "hotel_id": "click-hotels-andheri-midc-ranchi",
       "name": "Click Hotels Andheri MIDC",
-      "city": "RANCHI",
+      "city": "ranchi",
       "country": "India",
       "rating": 8,
       "review_count": 620,
@@ -5747,13 +5747,13 @@
       "longitude": 72.8755,
       "source": "expedia",
       "created_at": "2026-05-17T02:25:22.899Z",
-      "updated_at": "2026-05-17T02:56:36.463Z"
+      "updated_at": "2026-05-30T16:52:48.966Z"
     },
     {
       "id": "mock-b5d190c0-4baf-407f-b8ea-1e10c77c710a",
       "hotel_id": "sri-sai-grand-in-ranchi",
       "name": "Sri Sai Grand IN",
-      "city": "RANCHI",
+      "city": "ranchi",
       "country": "India",
       "rating": 8.2,
       "review_count": 1200,
@@ -5762,13 +5762,13 @@
       "longitude": 77.5946,
       "source": "agoda",
       "created_at": "2026-05-17T02:25:35.183Z",
-      "updated_at": "2026-05-17T02:56:34.712Z"
+      "updated_at": "2026-05-30T16:52:47.432Z"
     },
     {
       "id": "mock-7dfd21cd-9cc0-47ae-84e4-5307a419fd41",
       "hotel_id": "hotel-o-srirampura-metro-station-formerly-broadway-inn-ranchi",
       "name": "Hotel O Srirampura Metro Station Formerly Broadway Inn",
-      "city": "RANCHI",
+      "city": "ranchi",
       "country": "India",
       "rating": 8,
       "review_count": 500,
@@ -5777,7 +5777,7 @@
       "longitude": 77.57,
       "source": "agoda",
       "created_at": "2026-05-17T02:25:35.212Z",
-      "updated_at": "2026-05-17T02:56:34.746Z"
+      "updated_at": "2026-05-30T16:52:47.462Z"
     }
   ],
   "room_types": [
@@ -31274,6 +31274,226 @@
       "checkout_date": "2026-05-18T00:00:00.000Z",
       "scraped_at": "2026-05-17T02:56:36.478Z",
       "created_at": "2026-05-17T02:56:36.478Z"
+    },
+    {
+      "id": "mock-price-07b2a30d-da7e-4051-ad11-bf59f7c42a33",
+      "hotel_id": "mock-6094f3c9-0b45-4724-94d5-ddf4762afab4",
+      "price": 18000,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:23.957Z",
+      "created_at": "2026-05-30T16:52:23.957Z"
+    },
+    {
+      "id": "mock-price-f4127e4f-8e7b-416c-a948-baa12a69c5c7",
+      "hotel_id": "mock-6bd337f0-3601-4754-ad2b-32bad2019edc",
+      "price": 12000,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:23.999Z",
+      "created_at": "2026-05-30T16:52:23.999Z"
+    },
+    {
+      "id": "mock-price-a788b805-9e94-4675-8fc5-3f70c3a70faa",
+      "hotel_id": "mock-8f81d617-beb2-4b59-80db-eec4e4081eab",
+      "price": 15000,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:24.030Z",
+      "created_at": "2026-05-30T16:52:24.030Z"
+    },
+    {
+      "id": "mock-price-d1337ac8-8871-41f7-b6f0-c4e73c74e148",
+      "hotel_id": "mock-0b999cf4-007c-49b9-a799-5f091c433039",
+      "price": 2600,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:24.057Z",
+      "created_at": "2026-05-30T16:52:24.057Z"
+    },
+    {
+      "id": "mock-price-42c6829e-7cb3-4ac5-9d99-475e0e80c404",
+      "hotel_id": "mock-b5d190c0-4baf-407f-b8ea-1e10c77c710a",
+      "price": 1750,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:24.085Z",
+      "created_at": "2026-05-30T16:52:24.085Z"
+    },
+    {
+      "id": "mock-price-c9cc258a-aaab-49b4-8071-0b2589975932",
+      "hotel_id": "mock-7dfd21cd-9cc0-47ae-84e4-5307a419fd41",
+      "price": 800,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:24.116Z",
+      "created_at": "2026-05-30T16:52:24.116Z"
+    },
+    {
+      "id": "mock-price-e182d6a0-cefb-4a63-bcba-89978ff3f60e",
+      "hotel_id": "mock-6094f3c9-0b45-4724-94d5-ddf4762afab4",
+      "price": 19500,
+      "currency": "INR",
+      "source": "expedia",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:25.678Z",
+      "created_at": "2026-05-30T16:52:25.678Z"
+    },
+    {
+      "id": "mock-price-1ed5bd2a-eafd-4754-b5b9-2946e2f4feb6",
+      "hotel_id": "mock-6bd337f0-3601-4754-ad2b-32bad2019edc",
+      "price": 13000,
+      "currency": "INR",
+      "source": "expedia",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:25.715Z",
+      "created_at": "2026-05-30T16:52:25.715Z"
+    },
+    {
+      "id": "mock-price-140fb3dc-dd13-4c3c-989c-fd33809706c8",
+      "hotel_id": "mock-8f81d617-beb2-4b59-80db-eec4e4081eab",
+      "price": 16000,
+      "currency": "INR",
+      "source": "expedia",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:25.754Z",
+      "created_at": "2026-05-30T16:52:25.754Z"
+    },
+    {
+      "id": "mock-price-95235564-4492-42b7-bc76-cda9e6bbb360",
+      "hotel_id": "mock-0b999cf4-007c-49b9-a799-5f091c433039",
+      "price": 2800,
+      "currency": "INR",
+      "source": "expedia",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:25.785Z",
+      "created_at": "2026-05-30T16:52:25.785Z"
+    },
+    {
+      "id": "mock-price-cf42aa27-75e8-44e0-a0d5-ac56aba32c7e",
+      "hotel_id": "mock-6094f3c9-0b45-4724-94d5-ddf4762afab4",
+      "price": 18000,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:47.307Z",
+      "created_at": "2026-05-30T16:52:47.307Z"
+    },
+    {
+      "id": "mock-price-04c8315e-b077-438b-a376-c08a0c4039de",
+      "hotel_id": "mock-6bd337f0-3601-4754-ad2b-32bad2019edc",
+      "price": 12000,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:47.347Z",
+      "created_at": "2026-05-30T16:52:47.347Z"
+    },
+    {
+      "id": "mock-price-39bf4b20-7e03-4fa4-801a-382c7e28ca74",
+      "hotel_id": "mock-8f81d617-beb2-4b59-80db-eec4e4081eab",
+      "price": 15000,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:47.381Z",
+      "created_at": "2026-05-30T16:52:47.381Z"
+    },
+    {
+      "id": "mock-price-7bbd5cf8-c0d4-4a58-a6cf-59b91cfb6e87",
+      "hotel_id": "mock-0b999cf4-007c-49b9-a799-5f091c433039",
+      "price": 2600,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:47.417Z",
+      "created_at": "2026-05-30T16:52:47.417Z"
+    },
+    {
+      "id": "mock-price-f7f95833-9496-4f6e-8fd7-bdc0e50dead8",
+      "hotel_id": "mock-b5d190c0-4baf-407f-b8ea-1e10c77c710a",
+      "price": 1750,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:47.447Z",
+      "created_at": "2026-05-30T16:52:47.447Z"
+    },
+    {
+      "id": "mock-price-9533c664-75bf-460d-8d7a-fce7d32e5767",
+      "hotel_id": "mock-7dfd21cd-9cc0-47ae-84e4-5307a419fd41",
+      "price": 800,
+      "currency": "INR",
+      "source": "agoda",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:47.478Z",
+      "created_at": "2026-05-30T16:52:47.478Z"
+    },
+    {
+      "id": "mock-price-24298f6a-1e92-4142-8241-d84c3b36c1fa",
+      "hotel_id": "mock-6094f3c9-0b45-4724-94d5-ddf4762afab4",
+      "price": 19500,
+      "currency": "INR",
+      "source": "expedia",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:48.836Z",
+      "created_at": "2026-05-30T16:52:48.836Z"
+    },
+    {
+      "id": "mock-price-fe038b04-9873-45ca-a9e2-62a9316e3f84",
+      "hotel_id": "mock-6bd337f0-3601-4754-ad2b-32bad2019edc",
+      "price": 13000,
+      "currency": "INR",
+      "source": "expedia",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:48.901Z",
+      "created_at": "2026-05-30T16:52:48.901Z"
+    },
+    {
+      "id": "mock-price-705e554f-816e-44fd-9240-13eb55283e30",
+      "hotel_id": "mock-8f81d617-beb2-4b59-80db-eec4e4081eab",
+      "price": 16000,
+      "currency": "INR",
+      "source": "expedia",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:48.944Z",
+      "created_at": "2026-05-30T16:52:48.944Z"
+    },
+    {
+      "id": "mock-price-2ee3f4b9-de42-434d-bb99-5cf1e483854e",
+      "hotel_id": "mock-0b999cf4-007c-49b9-a799-5f091c433039",
+      "price": 2800,
+      "currency": "INR",
+      "source": "expedia",
+      "checkin_date": "2026-05-30T00:00:00.000Z",
+      "checkout_date": "2026-05-31T00:00:00.000Z",
+      "scraped_at": "2026-05-30T16:52:48.990Z",
+      "created_at": "2026-05-30T16:52:48.990Z"
     }
   ],
   "scrape_logs": [
@@ -33875,6 +34095,66 @@
       "hotels_count": 4,
       "error_message": null,
       "finished_at": "2026-05-17T02:56:36.493Z"
+    },
+    {
+      "id": "mock-log-42f8d9b9-de70-42c9-bb98-c6259e50f475",
+      "started_at": "2026-05-30T16:52:23.748Z",
+      "website": "booking",
+      "city": "ranchi",
+      "country": "India",
+      "status": "failure",
+      "metadata": {
+        "check_in": "2026-05-30T00:00:00.000Z",
+        "check_out": "2026-05-31T00:00:00.000Z"
+      },
+      "hotels_count": 25,
+      "error_message": "Could not find Chrome (ver. 146.0.7680.153). This can occur if either\n 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or\n 2. your cache path is incorrectly configured (which is: /home/vercel-sandbox/.cache/puppeteer).\nFor (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.",
+      "finished_at": "2026-05-30T16:52:23.883Z"
+    },
+    {
+      "id": "mock-log-f7d7ad6a-a3ad-40da-8016-bfaed8f2b112",
+      "started_at": "2026-05-30T16:52:23.896Z",
+      "website": "agoda",
+      "city": "ranchi",
+      "country": "India",
+      "status": "success",
+      "metadata": {
+        "check_in": "2026-05-30T00:00:00.000Z",
+        "check_out": "2026-05-31T00:00:00.000Z"
+      },
+      "hotels_count": 6,
+      "error_message": null,
+      "finished_at": "2026-05-30T16:52:24.132Z"
+    },
+    {
+      "id": "mock-log-ab615841-86d3-4322-936e-12553b6c823b",
+      "started_at": "2026-05-30T16:52:24.140Z",
+      "website": "expedia",
+      "city": "ranchi",
+      "country": "India",
+      "status": "success",
+      "metadata": {
+        "check_in": "2026-05-30T00:00:00.000Z",
+        "check_out": "2026-05-31T00:00:00.000Z"
+      },
+      "hotels_count": 4,
+      "error_message": null,
+      "finished_at": "2026-05-30T16:52:25.799Z"
+    },
+    {
+      "id": "mock-log-d44ce4af-a6ec-442c-acf1-24eb51b355f1",
+      "started_at": "2026-05-30T16:52:25.808Z",
+      "website": "makemytrip",
+      "city": "ranchi",
+      "country": "India",
+      "status": "failure",
+      "metadata": {
+        "check_in": "2026-05-30T00:00:00.000Z",
+        "check_out": "2026-05-31T00:00:00.000Z"
+      },
+      "hotels_count": 15,
+      "error_message": "Could not find Chrome (ver. 146.0.7680.153). This can occur if either\n 1. you did not perform an installation before running the script (e.g. `npx puppeteer browsers install chrome`) or\n 2. your cache path is incorrectly configured (which is: /home/vercel-sandbox/.cache/puppeteer).\nFor (2), check out our guide on configuring puppeteer at https://pptr.dev/guides/configuration.",
+      "finished_at": "2026-05-30T16:52:25.841Z"
     }
   ]
 }
